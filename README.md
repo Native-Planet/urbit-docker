@@ -1,0 +1,1 @@
+`docker buildx build --build-arg TAG=$tag --push --tag nativeplanet/urbit:${tag} --platform linux/amd64,linux/arm64 .`
