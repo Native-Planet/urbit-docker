@@ -24,7 +24,7 @@ pipeline {
                         docker login --username=nativeplanet --password=$dockerpw
                         docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
                         docker buildx create --use --name xbuilder --node xbuilder0
-                        docker buildx build --build-arg TAG=$tag --push --tag nativeplanet/urbit:${tag} --platform linux/amd64,linux/arm64 .
+                        docker buildx build --build-arg TAG=$tag --push --tag nativeplanet/urbit:${tag} --tag nativeplanet/urbit:latest --platform linux/amd64,linux/arm64 .
                     ''',
                     returnStdout: true
                 )
