@@ -11,4 +11,4 @@ RUN mkdir -p /urbit/binary
 RUN /bin/bash /dl-urbit
 RUN cp /bin/start-urbit /urbit/start_urbit.sh
 WORKDIR /urbit
-CMD [ "/urbit/start-urbit.sh" ]
+CMD [ "/urbit/start_urbit.sh" ]
