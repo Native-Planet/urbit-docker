@@ -9,5 +9,6 @@ COPY start-urbit /bin/
 RUN chmod +x /bin/start-urbit /bin/get-urbit-code /bin/reset-urbit-code /dl-urbit
 RUN mkdir -p /urbit/binary
 RUN /bin/bash /dl-urbit
+RUN cp /bin/start-urbit /urbit/start_urbit.sh
 WORKDIR /urbit
-CMD [ "/bin/start-urbit" ]
+CMD [ "/urbit/start-urbit.sh" ]
