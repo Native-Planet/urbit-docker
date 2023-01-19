@@ -10,6 +10,7 @@ pipeline {
                     script: '''
                         git clone https://github.com/urbit/vere
                         cd vere
+                        git checkout origin/master
                         tag=$(git describe --tags --abbrev=0 --exclude "*-rc*")
                         tag=$(echo "$tag" | sed -e "s/^vere-//")
                         cd .. && rm -rf vere
