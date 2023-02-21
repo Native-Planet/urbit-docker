@@ -47,6 +47,8 @@ pipeline {
                             https://version.groundseg.app/modify/groundseg/${channel}/vere/amd64_sha256/${amd64_hash}
                         curl -X PUT -H "X-Api-Key: ${versionauth}" \
                             https://version.groundseg.app/modify/groundseg/${channel}/vere/arm64_sha256/${arm64_hash}
+                        curl -X PUT -H "X-Api-Key: ${versionauth}" \
+                            https://version.groundseg.app/modify/groundseg/${channel}/vere/tag/${tag}
                     ''',
                     returnStdout: true
                 )
