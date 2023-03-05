@@ -1,4 +1,4 @@
-FROM alpine:3.17.1@sha256:93d5a28ff72d288d69b5997b8ba47396d2cbb62a72b5d87cd3351094b5d578a0
+FROM alpine:latest
 ARG TAG
 ENV TAG=${TAG}
 RUN apk update && apk add bash curl libcap
