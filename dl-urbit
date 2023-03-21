@@ -12,3 +12,4 @@ elif [[ $DEVICE_ARCH == "x86_64" ]]; then
   mv /urbit/binary/vere-${VERSION}-linux-x86_64 /usr/sbin/vere
 fi
 echo
+chmod +x /usr/sbin/vere
