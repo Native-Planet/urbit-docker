@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    triggers {
+        cron('0 4 * * *')
+    }
     environment {
         versionauth = credentials('VersionAuth')
     }
