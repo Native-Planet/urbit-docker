@@ -1,7 +1,7 @@
 FROM alpine:latest
 ARG TAG
 ENV TAG=${TAG}
-RUN apk update && apk add bash curl libcap tmux
+RUN apk update && apk add bash curl libcap tmux util-linux
 COPY dl-urbit /
 COPY reset-urbit-code /bin/
 COPY get-urbit-code /bin/
