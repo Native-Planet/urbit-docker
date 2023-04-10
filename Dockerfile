@@ -1,7 +1,9 @@
 FROM alpine:latest
 ARG TAG
 ENV TAG=${TAG}
-RUN apk update && apk add bash curl libcap tmux util-linux netcat-openbsd
+RUN apk update && apk add bash curl libcap tmux util-linux
+RUN wget https://files.native.computer/netcat-openbsd-1.219-r0.apk
+RUN apk add netcat-openbsd-1.219-r0.apk
 COPY dl-urbit /
 COPY reset-urbit-code /bin/
 COPY get-urbit-code /bin/
