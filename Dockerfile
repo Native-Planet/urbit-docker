@@ -16,7 +16,7 @@ RUN wget -O /hoon/code.hoon https://files.native.computer/click/code.hoon
 
 # Download specific version of click from the official repo
 ARG clickhash=4c9e5f4ac8081f6250374a2c360cd756d44ec31b
-ARG clickurl=https://github.com/urbit/tools/blob
+ARG clickurl=https://raw.githubusercontent.com/urbit/tools/
 RUN wget -O /bin/click ${clickurl}/${clickhash}/pkg/click/click
 RUN wget -O /bin/click-format ${clickurl}/${clickhash}/pkg/click/click-format
 
