@@ -1,7 +1,6 @@
 FROM alpine:latest
 ARG TAG
 ARG TARGETARCH
-RUN echo ${TARGETARCH}
 ENV TAG=${TAG}
 RUN apk update && apk add bash curl libcap tmux util-linux
 
@@ -15,9 +14,11 @@ RUN mkdir /hoon
 # +code
 RUN wget -O /hoon/code.hoon https://files.native.computer/click/code.hoon
 
-# Download modified click from Native Planet
-RUN wget -O /bin/click https://files.native.computer/click/click
-RUN wget -O /bin/click-format https://files.native.computer/click/click-format
+# Download specific version of click from the official repo
+ARG clickhash=4c9e5f4ac8081f6250374a2c360cd756d44ec31b
+ARG clickurl=https://github.com/urbit/tools/blob
+RUN wget -O /bin/click ${clickurl}/${clickhash}/pkg/click/click
+RUN wget -O /bin/click-format ${clickurl}/${clickhash}/pkg/click/click-format
 
 COPY dl-urbit /
 COPY reset-urbit-code /bin/
