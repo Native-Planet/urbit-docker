@@ -11,7 +11,7 @@ RUN apk add netcat-openbsd-1.219-r0.apk
 RUN rm netcat-openbsd-1.219-r0.apk
 
 # Create directory for hoon files used with click
-RUN rm mkdir /hoon
+RUN mkdir /hoon
 # +code
 RUN wget -O /hoon/code.hoon https://files.native.computer/click/code.hoon
 
