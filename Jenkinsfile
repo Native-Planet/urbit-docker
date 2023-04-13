@@ -20,12 +20,14 @@ pipeline {
                     script: '''#!/bin/bash -x
                         updated=$(curl -s "https://hub.docker.com/v2/repositories/tloncorp/vere/tags/edge/?page_size=100" \
                         |jq -r '.last_updated')
+                        ours=$(curl -s "https://hub.docker.com/v2/repositories/nativeplanet/urbit/tags/canary/?page_size=100" \
+                        |jq -r '.last_updated')
                         stamp=`date -d $updated +"%s"`
-                        yday=`date -d '24 hours ago' +"%s"`
+                        yday=`date -d $ours +"%s"`
                         if [ $stamp -le $yday ]; then
-                            echo "new"
-                        else
                             echo "old"
+                        else
+                            echo "new"
                         fi
                     ''',
                     returnStdout: true
