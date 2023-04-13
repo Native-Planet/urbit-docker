@@ -12,6 +12,7 @@ pipeline {
     environment {
         dockerpw = credentials('Dockerhub PW')
         versionauth = credentials('VersionAuth')
+        rebuild = "${params.REBUILD}"
     }
     stages {
         stage('Build') {
@@ -36,7 +37,6 @@ pipeline {
             steps {
                 sh (
                     script: '''
-                        echo "${params.REBUILD}"
                         build_img () {
                             docker login --username=nativeplanet --password=$dockerpw
                             docker build --tag nativeplanet/urbit:canary .
@@ -48,7 +48,7 @@ pipeline {
                         }
                         if [ "$is_new" = "new" ]; then
                             build_img
-                        elif [ "${params.REBUILD}" = "True" ]; then
+                        elif [ "${rebuild}" = "yes" ]; then
                             build_img
                         else
                             echo "Now new image"
