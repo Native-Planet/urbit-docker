@@ -47,7 +47,7 @@ pipeline {
                         }
                         if [ "$is_new" = "new" ]; then
                             build_img
-                        elif [ "${rebuild}" = "yes" ]; then
+                        elif [ "${REBUILD}" = "yes" ]; then
                             build_img
                         else
                             echo "No new image"
