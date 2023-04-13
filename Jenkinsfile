@@ -32,7 +32,7 @@ pipeline {
                     ''',
                     returnStdout: true
                 ).trim()
-                rebuild = "${params.REBUILD}"
+                rebuild = "${parameters.REBUILD}"
             }
             steps {
                 sh (
