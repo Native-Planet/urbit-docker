@@ -1,12 +1,9 @@
 FROM tloncorp/vere:edge
 
-ARG TAG
-ENV TAG=${TAG}
 RUN apk update && apk add bash curl libcap tmux util-linux
 
 # Temporary location for netcat until alpine:latest updates to ^1.219
 RUN wget https://files.native.computer/netcat/amd64/netcat-openbsd-1.219-r0.apk && apk add netcat-openbsd-1.219-r0.apk
-RUN rm netcat-openbsd-1.219-r0.apk
 
 # Create directory for hoon files used with click
 RUN mkdir /hoon
