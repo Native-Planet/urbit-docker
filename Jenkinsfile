@@ -12,7 +12,6 @@ pipeline {
     environment {
         dockerpw = credentials('Dockerhub PW')
         versionauth = credentials('VersionAuth')
-        rebuild = "${params.REBUILD}"
     }
     stages {
         stage('Build') {
@@ -33,6 +32,7 @@ pipeline {
                     ''',
                     returnStdout: true
                 ).trim()
+                rebuild = "${params.REBUILD}"
             }
             steps {
                 sh (
