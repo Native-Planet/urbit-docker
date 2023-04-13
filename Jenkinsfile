@@ -36,8 +36,9 @@ pipeline {
             }
             steps {
                 sh (
-                    script: '''
+                    script: '''#!/bin/bash -x
                         build_img () {
+                            echo "rebuild var: ${rebuild}"
                             docker login --username=nativeplanet --password=$dockerpw
                             docker build --tag nativeplanet/urbit:canary .
                             docker push nativeplanet/urbit:canary
