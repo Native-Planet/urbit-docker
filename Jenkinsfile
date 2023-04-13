@@ -23,7 +23,7 @@ pipeline {
                         ours=$(curl -s "https://hub.docker.com/v2/repositories/nativeplanet/urbit/tags/canary/?page_size=100" \
                         |jq -r '.last_updated')
                         stamp=`date -d $updated +"%s"`
-                        yday=`date -d $ours +"%s"`
+                        yday=`date -d '24 hours ago' +"%s"`
                         if [ $stamp -le $yday ]; then
                             echo "old"
                         else
@@ -36,7 +36,6 @@ pipeline {
             steps {
                 sh (
                     script: '''
-                        #!/bin/bash -x
                         if [ "$is_new" = "new" ]; then
                             docker login --username=nativeplanet --password=$dockerpw
                             docker build --tag nativeplanet/urbit:canary .
@@ -54,7 +53,7 @@ pipeline {
                             curl -X PUT -H "X-Api-Key: ${versionauth}" \
                                 https://version.groundseg.app/modify/groundseg/canary/vere/amd64_sha256/${edge_hash}
                         else
-                            echo "Now new image"
+                            echo "No new image"
                         fi
                     ''',
                     returnStdout: true
