@@ -36,6 +36,7 @@ pipeline {
             steps {
                 sh (
                     script: '''
+                        echo "${params.REBUILD}"
                         build_img () {
                             docker login --username=nativeplanet --password=$dockerpw
                             docker build --tag nativeplanet/urbit:canary .
