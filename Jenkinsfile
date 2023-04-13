@@ -25,9 +25,9 @@ pipeline {
                         stamp=`date -d $updated +"%s"`
                         yday=`date -d '24 hours ago' +"%s"`
                         if [ $stamp -le $yday ]; then
-                            echo "old"
-                        else
                             echo "new"
+                        else
+                            echo "old"
                         fi
                     ''',
                     returnStdout: true
@@ -53,7 +53,7 @@ pipeline {
                             curl -X PUT -H "X-Api-Key: ${versionauth}" \
                                 https://version.groundseg.app/modify/groundseg/canary/vere/amd64_sha256/${edge_hash}
                         else
-                            echo "No new image"
+                            echo "Now new image"
                         fi
                     ''',
                     returnStdout: true
