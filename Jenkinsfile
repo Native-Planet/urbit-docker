@@ -36,6 +36,7 @@ pipeline {
             steps {
                 sh (
                     script: '''
+                        #!/bin/bash -x
                         if [ "$is_new" = "new" ]; then
                             docker login --username=nativeplanet --password=$dockerpw
                             docker build --tag nativeplanet/urbit:canary .
