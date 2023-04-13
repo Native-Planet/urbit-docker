@@ -36,14 +36,16 @@ pipeline {
                     script: '''
                         if [ "$is_new" = "new" ]; then
                             docker login --username=nativeplanet --password=$dockerpw
-                            docker build --push --tag nativeplanet/urbit:canary --tag nativeplanet/urbit:canary .
+                            docker build --tag nativeplanet/urbit:canary .
+                            docker push nativeplanet/urbit:canary
                             edge_hash=`curl -s "https://hub.docker.com/v2/repositories/nativeplanet/urbit/tags/canary/?page_size=100" \
                                 |jq -r '.images[]|select(.architecture=="amd64").digest'|sed 's/sha256://g'`
                             curl -X PUT -H "X-Api-Key: ${versionauth}" \
                                 https://version.groundseg.app/modify/groundseg/canary/vere/amd64_sha256/${edge_hash}
                         elif [ "${params.REBUILD}" = "True" ]; then
                             docker login --username=nativeplanet --password=$dockerpw
-                            docker build --push --tag nativeplanet/urbit:canary --tag nativeplanet/urbit:canary .
+                            docker build --tag nativeplanet/urbit:canary .
+                            docker push nativeplanet/urbit:canary
                             edge_hash=`curl -s "https://hub.docker.com/v2/repositories/nativeplanet/urbit/tags/canary/?page_size=100" \
                                 |jq -r '.images[]|select(.architecture=="amd64").digest'|sed 's/sha256://g'`
                             curl -X PUT -H "X-Api-Key: ${versionauth}" \
