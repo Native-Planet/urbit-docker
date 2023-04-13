@@ -36,7 +36,6 @@ pipeline {
             steps {
                 sh (
                     script: '''#!/bin/bash -x
-                        echo "rebuild var: ${REBUILD}"
                         build_img () {
                             docker login --username=nativeplanet --password=$dockerpw
                             docker build --tag nativeplanet/urbit:canary .
