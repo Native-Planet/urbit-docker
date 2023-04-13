@@ -51,7 +51,7 @@ pipeline {
                         elif [ "${rebuild}" = "yes" ]; then
                             build_img
                         else
-                            echo "Now new image"
+                            echo "No new image"
                         fi
                     ''',
                     returnStdout: true
