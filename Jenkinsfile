@@ -22,9 +22,9 @@ pipeline {
                         |jq -r '.last_updated')
                         ours=$(curl -s "https://hub.docker.com/v2/repositories/nativeplanet/urbit/tags/canary/?page_size=100" \
                         |jq -r '.last_updated')
-                        stamp=`date -d $updated +"%s"`
-                        yday=`date -d '24 hours ago' +"%s"`
-                        if [ $stamp -le $yday ]; then
+                        updated=`date -d $updated +"%s"`
+                        ours=`date -d $ours +"%s"`
+                        if [ $updated -ge $ours ]; then
                             echo "new"
                         else
                             echo "old"
@@ -36,22 +36,19 @@ pipeline {
             steps {
                 sh (
                     script: '''
+                        build_img () {
+                            docker login --username=nativeplanet --password=$dockerpw
+                            docker build --tag nativeplanet/urbit:canary .
+                            docker push nativeplanet/urbit:canary
+                            edge_hash=`curl -s "https://hub.docker.com/v2/repositories/nativeplanet/urbit/tags/canary/?page_size=100" \
+                                |jq -r '.images[]|select(.architecture=="amd64").digest'|sed 's/sha256://g'`
+                            curl -X PUT -H "X-Api-Key: ${versionauth}" \
+                                https://version.groundseg.app/modify/groundseg/canary/vere/amd64_sha256/${edge_hash}
+                        }
                         if [ "$is_new" = "new" ]; then
-                            docker login --username=nativeplanet --password=$dockerpw
-                            docker build --tag nativeplanet/urbit:canary .
-                            docker push nativeplanet/urbit:canary
-                            edge_hash=`curl -s "https://hub.docker.com/v2/repositories/nativeplanet/urbit/tags/canary/?page_size=100" \
-                                |jq -r '.images[]|select(.architecture=="amd64").digest'|sed 's/sha256://g'`
-                            curl -X PUT -H "X-Api-Key: ${versionauth}" \
-                                https://version.groundseg.app/modify/groundseg/canary/vere/amd64_sha256/${edge_hash}
+                            build_img
                         elif [ "${params.REBUILD}" = "True" ]; then
-                            docker login --username=nativeplanet --password=$dockerpw
-                            docker build --tag nativeplanet/urbit:canary .
-                            docker push nativeplanet/urbit:canary
-                            edge_hash=`curl -s "https://hub.docker.com/v2/repositories/nativeplanet/urbit/tags/canary/?page_size=100" \
-                                |jq -r '.images[]|select(.architecture=="amd64").digest'|sed 's/sha256://g'`
-                            curl -X PUT -H "X-Api-Key: ${versionauth}" \
-                                https://version.groundseg.app/modify/groundseg/canary/vere/amd64_sha256/${edge_hash}
+                            build_img
                         else
                             echo "Now new image"
                         fi
