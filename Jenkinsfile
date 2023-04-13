@@ -32,12 +32,11 @@ pipeline {
                     ''',
                     returnStdout: true
                 ).trim()
-                rebuild = "${parameters.REBUILD}"
             }
             steps {
                 sh (
                     script: '''#!/bin/bash -x
-                        echo "rebuild var: ${rebuild}"
+                        echo "rebuild var: ${REBUILD}"
                         build_img () {
                             docker login --username=nativeplanet --password=$dockerpw
                             docker build --tag nativeplanet/urbit:canary .
