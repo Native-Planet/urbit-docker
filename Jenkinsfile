@@ -38,7 +38,7 @@ pipeline {
                         docker login --username=nativeplanet --password=$dockerpw
                         docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
                         docker buildx create --use --name xbuilder --node xbuilder0
-                        docker buildx build --build-arg TAG=$tag --push --tag nativeplanet/urbit:${tag} --tag nativeplanet/urbit:staging --platform linux/amd64,linux/arm64,linux/arm/v7 .
+                        docker buildx build --build-arg TAG=$tag --push --tag nativeplanet/urbit:${tag} --tag nativeplanet/urbit:latest --platform linux/amd64,linux/arm64 .
                         arm64_hash=`curl -s "https://hub.docker.com/v2/repositories/nativeplanet/urbit/tags/${tag}/?page_size=100" \
                         |jq -r '.images[]|select(.architecture=="arm64").digest'|sed 's/sha256://g'`
                         amd64_hash=`curl -s "https://hub.docker.com/v2/repositories/nativeplanet/urbit/tags/${tag}/?page_size=100" \

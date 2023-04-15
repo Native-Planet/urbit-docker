@@ -28,6 +28,5 @@ RUN chmod +x /bin/start-urbit /bin/get-urbit-code /bin/reset-urbit-code /dl-urbi
 RUN mkdir -p /urbit/binary
 RUN /bin/bash /dl-urbit
 RUN rm -rf /urbit/binary
-RUN echo 1 > /1
 WORKDIR /urbit
 CMD [ "/bin/start-urbit" ]
