@@ -1,4 +1,9 @@
+FROM rust:latest as builder
+COPY ./gs-ipc /ipc
+WORKDIR /ipc
+RUN cargo install --path .
 FROM alpine:latest
+COPY --from=builder /ipc/target/release/ /bin/
 ARG TAG
 ARG TARGETARCH
 ENV TAG=${TAG}
