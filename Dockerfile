@@ -1,4 +1,4 @@
-FROM rust:latest as builder
+FROM rust:alpine as builder
 COPY ./gs-ipc /ipc
 WORKDIR /ipc
 RUN cargo install --path .
