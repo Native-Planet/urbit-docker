@@ -1,4 +1,4 @@
-FROM tloncorp/vere:edge
+FROM tloncorp/vere:once
 
 RUN apk update && apk add bash curl libcap tmux util-linux
 
