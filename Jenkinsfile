@@ -35,6 +35,7 @@ pipeline {
             steps {
                 sh (
                     script: '''
+                        docker pull tloncorp/vere:edge
                         docker login --username=nativeplanet --password=$dockerpw
                         docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
                         docker buildx create --use --name xbuilder --node xbuilder0
