@@ -37,6 +37,7 @@ pipeline {
                 sh (
                     script: '''#!/bin/bash -x
                         build_img () {
+                            docker pull tloncorp/vere:edge
                             docker login --username=nativeplanet --password=$dockerpw
                             docker build --tag nativeplanet/urbit:canary .
                             docker push nativeplanet/urbit:canary
