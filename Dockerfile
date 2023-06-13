@@ -1,6 +1,7 @@
 FROM rust:alpine as builder
 RUN cargo install --path .
 FROM alpine:latest
+RUN echo "urbit"
 ARG TAG
 ARG TARGETARCH
 ENV TAG=${TAG}
