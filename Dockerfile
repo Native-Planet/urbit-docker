@@ -4,9 +4,7 @@ FROM alpine:latest
 ARG TAG
 ARG TARGETARCH
 ENV TAG=${TAG}
-RUN echo "urbit"
 RUN apk update && apk add bash curl libcap tmux util-linux
-
 
 # Temporary location for netcat until alpine:latest updates to ^1.219
 RUN wget https://files.native.computer/netcat/${TARGETARCH}/netcat-openbsd-1.219-r0.apk
