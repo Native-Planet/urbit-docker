@@ -4,6 +4,7 @@ FROM alpine:latest
 ARG TAG
 ARG TARGETARCH
 ENV TAG=${TAG}
+RUN echo "urbit"
 RUN apk update && apk add bash curl libcap tmux util-linux
 
 
