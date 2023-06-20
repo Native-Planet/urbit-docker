@@ -22,7 +22,7 @@ ARG clickurl=https://raw.githubusercontent.com/urbit/tools/
 RUN wget -O /bin/click ${clickurl}/${clickhash}/pkg/click/click
 RUN wget -O /bin/click-format ${clickurl}/${clickhash}/pkg/click/click-format
 
-COPY epoch-1 /usr/sbin/vere
+#COPY epoch-1 /usr/sbin/vere
 COPY dl-urbit /
 COPY reset-urbit-code /bin/
 COPY get-urbit-code /bin/
