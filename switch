@@ -1,0 +1,7 @@
+# switch between dockerfiles
+mv Dockerfile_backup Dockerfile_n
+mv Dockerfile Dockerfile_backup
+mv Dockerfile_n Dockerfile
+git add .
+git commit -m '.'
+git push
