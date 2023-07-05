@@ -22,11 +22,7 @@ pipeline {
             environment {
                 tag = sh ( 
                     script: '''
-                        git clone https://github.com/urbit/vere
-                        cd vere
-                        tag=$(git describe --tags --abbrev=0 --exclude "*-rc*")
-                        tag=$(echo "$tag" | sed -e "s/^vere-//")
-                        cd .. && rm -rf vere
+                        tag=$(git -c 'versionsort.suffix=-' ls-remote --tags --sort='v:refname' https://github.com/urbit/vere 'vere-v*' | cut --delimiter='/' --fields=3 | grep -v 'rc' | tail -n 1 | sed -e "s/^vere-//")
                         echo $tag
                     ''',
                     returnStdout: true
