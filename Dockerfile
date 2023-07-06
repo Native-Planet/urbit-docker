@@ -16,5 +16,7 @@ ARG clickurl=https://raw.githubusercontent.com/urbit/tools/
 RUN wget -O /bin/click ${clickurl}/${clickhash}/pkg/click/click
 RUN wget -O /bin/click-format ${clickurl}/${clickhash}/pkg/click/click-format
 RUN chmod +x /bin/click /bin/click-format
+# Let's change the hash
+RUN echo 1 > /1
 
 CMD [ "/bin/start-urbit" ]
