@@ -45,6 +45,8 @@ pipeline {
                                 |jq -r '.images[]|select(.architecture=="amd64").digest'|sed 's/sha256://g'`
                             curl -X PUT -H "X-Api-Key: ${versionauth}" \
                                 https://version.groundseg.app/modify/groundseg/canary/vere/amd64_sha256/${canary_hash}
+                            curl -X PUT -H "X-Api-Key: ${versionauth}" \
+                                https://staging.version.groundseg.app/modify/groundseg/canary/vere/amd64_sha256/${canary_hash}
                         }
                         if [ "$is_new" = "new" ]; then
                             build_img
