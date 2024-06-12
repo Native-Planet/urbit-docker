@@ -1,9 +1,8 @@
-FROM tloncorp/vere:edge
-
-RUN apk update && apk add bash curl libcap tmux util-linux avahi
-
-# Temporary location for netcat until alpine:latest updates to ^1.219
-RUN wget https://files.native.computer/netcat/amd64/netcat-openbsd-1.219-r0.apk && apk add netcat-openbsd-1.219-r0.apk
+FROM tloncorp/vere:edge AS tlon
+FROM bitnami/minideb:latest
+COPY --from=tlon /bin/urbit /bin/urbit
+COPY --from=tlon /bin/start-urbit /bin/start-urbit
+RUN apt-get update && apt install curl wget tmux util-linux avahi-daemon netcat-openbsd -y
 
 # Create directory for hoon files used with click
 RUN mkdir /hoon
@@ -20,3 +19,4 @@ RUN chmod +x /bin/click /bin/click-format
 RUN echo 1 > /1
 
 CMD [ "/bin/start-urbit" ]
+
