@@ -16,7 +16,7 @@ RUN wget -O /bin/click ${clickurl}/${clickhash}/pkg/click/click
 RUN wget -O /bin/click-format ${clickurl}/${clickhash}/pkg/click/click-format
 RUN chmod +x /bin/click /bin/click-format
 # Let's change the hash
-RUN echo 1 > /1
-
+RUN mkdir -p /urbit
+WORKDIR /urbit
 CMD [ "/bin/start-urbit" ]
 
