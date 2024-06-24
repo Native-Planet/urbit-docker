@@ -27,4 +27,4 @@ RUN chmod +x /bin/click /bin/click-format
 RUN mkdir -p /urbit
 WORKDIR /urbit
 
-CMD service dnsmasq start && /bin/start-urbit
+CMD /bin/start-urbit
