@@ -8,6 +8,7 @@ loom="31"
 devMode="False"
 
 # Find the first directory and start urbit with the ship therein
+cd /urbit
 dirnames="*/"
 dirs=( $dirnames )
 dirname=''${dirnames[0]}
