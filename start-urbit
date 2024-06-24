@@ -1,6 +1,10 @@
 #!/bin/bash
 
 set -eu
+
+# for dns caching
+service dnsmasq start
+
 # set defaults
 amesPort="34343"
 httpPort="80"
