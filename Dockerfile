@@ -3,7 +3,7 @@ FROM bitnami/minideb:latest
 
 # Copy binaries from the tlon stage
 COPY --from=tlon /bin/urbit /bin/urbit
-COPY --from=tlon /bin/start-urbit /bin/start-urbit
+COPY --from=tlon /bin/start_urbit /bin/start-urbit
 
 RUN apt-get update && \
     apt-get install -y curl wget tmux util-linux avahi-daemon netcat-openbsd dnsmasq && \
