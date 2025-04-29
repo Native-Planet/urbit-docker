@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 DEVICE_ARCH=$(uname -m)
 VERSION="${TAG}"
 mkdir -p /urbit/binary
