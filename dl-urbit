@@ -12,12 +12,12 @@ RELEASES=$(curl -sL https://api.github.com/repos/urbit/vere/releases)
 
 if [[ "${TAG}" != "" ]]; then
   CURRENT_VERSION="${TAG}"
-  PREV_VERSION=$(echo "$RELEASES" | jq -r ".[] | select(.tag_name == \"${TAG}\") | .tag_name" | head -1)
+  PREV_VERSION=$(echo "$RELEASES" | jq -r ".[] | select(.tag_name == \"vere-${TAG}\") | .tag_name" | head -1)
   if [[ -z "$PREV_VERSION" ]]; then
     echo "Tag ${TAG} not found"
     exit 1
   fi
-  IDX=$(echo "$RELEASES" | jq -r "to_entries[] | select(.value.tag_name == \"${TAG}\") | .key")
+  IDX=$(echo "$RELEASES" | jq -r "to_entries[] | select(.value.tag_name == \"vere-${TAG}\") | .key")
   PREV_VERSION=$(echo "$RELEASES" | jq -r ".[$(($IDX + 1))].tag_name" | sed 's/^vere-//')
   CURRENT_VERSION=$(echo "${TAG}" | sed 's/^vere-//')
 else
