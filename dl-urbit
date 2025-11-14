@@ -1,16 +1,40 @@
 #!/bin/bash
 set -ex
 DEVICE_ARCH=$(uname -m)
-VERSION="${TAG}"
+
+if [[ $DEVICE_ARCH == "aarch64" ]]; then
+  ASSET_NAME="linux-aarch64.tgz"
+elif [[ $DEVICE_ARCH == "x86_64" ]]; then
+  ASSET_NAME="linux-x86_64.tgz"
+fi
+
+RELEASES=$(curl -sL https://api.github.com/repos/urbit/vere/releases)
+
+if [[ "${TAG}" != "" ]]; then
+  CURRENT_VERSION="${TAG}"
+  PREV_VERSION=$(echo "$RELEASES" | jq -r ".[] | select(.tag_name == \"vere-${TAG}\") | .tag_name" | head -1)
+  if [[ -z "$PREV_VERSION" ]]; then
+    echo "Tag ${TAG} not found"
+    exit 1
+  fi
+  IDX=$(echo "$RELEASES" | jq -r "to_entries[] | select(.value.tag_name == \"vere-${TAG}\") | .key")
+  PREV_VERSION=$(echo "$RELEASES" | jq -r ".[$(($IDX + 1))].tag_name" | sed 's/^vere-//')
+  CURRENT_VERSION=$(echo "${TAG}" | sed 's/^vere-//')
+else
+  CURRENT_VERSION=$(echo "$RELEASES" | jq -r '.[0].tag_name' | sed 's/^vere-//')
+  PREV_VERSION=$(echo "$RELEASES" | jq -r '.[1].tag_name' | sed 's/^vere-//')
+fi
+
+CURRENT_URL=$(echo "$RELEASES" | jq -r ".[] | select(.tag_name == \"vere-${CURRENT_VERSION}\") | .assets[] | select(.name == \"${ASSET_NAME}\") | .browser_download_url")
+PREV_URL=$(echo "$RELEASES" | jq -r ".[] | select(.tag_name == \"vere-${PREV_VERSION}\") | .assets[] | select(.name == \"${ASSET_NAME}\") | .browser_download_url")
+
 mkdir -p /urbit/binary
 cd /urbit/binary/
-if [[ $DEVICE_ARCH == "aarch64" ]]; then
-  curl -L https://github.com/urbit/vere/releases/download/vere-$VERSION/linux-aarch64.tgz | tar xzk
-  chmod +x /urbit/binary/vere-${VERSION}-linux-aarch64
-  mv /urbit/binary/vere-${VERSION}-linux-aarch64 /usr/sbin/vere
-elif [[ $DEVICE_ARCH == "x86_64" ]]; then
-  curl -L https://github.com/urbit/vere/releases/download/vere-$VERSION/linux-x86_64.tgz | tar xzk
-  chmod +x /urbit/binary/vere-${VERSION}-linux-x86_64
-  mv /urbit/binary/vere-${VERSION}-linux-x86_64 /usr/sbin/vere
-fi
-ln -s /usr/sbin/vere /usr/sbin/urbit
+
+curl -L "$CURRENT_URL" | tar xzk
+chmod +x /urbit/binary/vere-${CURRENT_VERSION}-linux-${DEVICE_ARCH}
+mv /urbit/binary/vere-${CURRENT_VERSION}-linux-${DEVICE_ARCH} /usr/sbin/urbit
+
+curl -L "$PREV_URL" | tar xzk
+chmod +x /urbit/binary/vere-${PREV_VERSION}-linux-${DEVICE_ARCH}
+mv /urbit/binary/vere-${PREV_VERSION}-linux-${DEVICE_ARCH} /usr/sbin/prev-urbit
