@@ -6,7 +6,7 @@ COPY --from=tlon /bin/urbit /bin/urbit
 COPY --from=tlon /bin/start_urbit /bin/start-urbit
 
 RUN apt-get update && \
-    apt-get install -y curl wget tmux util-linux avahi-daemon netcat-openbsd dnsmasq && \
+    apt-get install -y curl wget tmux util-linux avahi-daemon netcat-openbsd dnsmasq jq && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 # for dns caching
