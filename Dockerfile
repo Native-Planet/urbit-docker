@@ -18,13 +18,13 @@ RUN set -eu; \
       arm64) vere_target=linux-aarch64 ;; \
       *) echo "Unsupported architecture: ${TARGETARCH}" >&2; exit 1 ;; \
     esac; \
-    vere_version="$(curl -fsSL --retry 5 \
+    vere_version="$(curl -fsSL \
       "https://bootstrap.urbit.org/vere/${VERE_PACE}/last")"; \
-    curl -fsSL --retry 5 \
+    curl -fsSL \
       -o /bin/urbit \
-      "https://bootstrap.urbit.org/vere/${VERE_PACE}/v${vere_version}/vere64-v${vere_version}-${vere_target}"; \
+      "https://bootstrap.urbit.org/vere/${VERE_PACE}/v${vere_version}/vere32-v${vere_version}-${vere_target}"; \
     chmod +x /bin/urbit; \
-    /bin/urbit -R 2>&1 | grep -F "(64-bit)"
+    /bin/urbit -R 2>&1 | grep -F "(32-bit)"
 
 # for dns caching
 RUN echo "server=8.8.8.8\n\
