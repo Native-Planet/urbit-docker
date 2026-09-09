@@ -10,6 +10,7 @@ amesPort="34343"
 httpPort="80"
 loom="31"
 devMode="False"
+vereBits="32"
 
 # Find the first directory and start urbit with the ship therein
 cd /urbit
@@ -72,8 +73,21 @@ case $i in
       devMode="${i#*=}"
       shift
       ;;
+   --vere-bits=*)
+      vereBits="${i#*=}"
+      shift
+      ;;
 esac
 done
+
+# select the vere binary width (32/64); /bin/urbit is the 32-bit default
+vereBinDir="/usr/local/vere/${vereBits}"
+if [ -x "${vereBinDir}/urbit" ]; then
+    export PATH="${vereBinDir}:${PATH}"
+elif [ "$vereBits" != "32" ]; then
+    echo "vere${vereBits} is not available in this image (missing ${vereBinDir}/urbit)"
+    exit 1
+fi
 
 # If the container is not started with the `-i` flag
 # then STDIN will be closed and we need to start

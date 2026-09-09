@@ -9,7 +9,12 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# The old vere-v... path now points to vere32. Download vere64 explicitly.
+# Ship both loom widths of the same vere release so a pier can be switched
+# between them without pulling a different image:
+#   /usr/local/vere/32/urbit  32-bit loom (the default, symlinked to /bin/urbit)
+#   /usr/local/vere/64/urbit  64-bit loom
+# GroundSeg selects one by passing --vere-bits=32|64 to its start script,
+# which prepends the matching directory to PATH.
 ARG VERE_PACE=edge
 ARG TARGETARCH
 RUN set -eu; \
@@ -20,10 +25,15 @@ RUN set -eu; \
     esac; \
     vere_version="$(curl -fsSL \
       "https://bootstrap.urbit.org/vere/${VERE_PACE}/last")"; \
-    curl -fsSL \
-      -o /bin/urbit \
-      "https://bootstrap.urbit.org/vere/${VERE_PACE}/v${vere_version}/vere32-v${vere_version}-${vere_target}"; \
-    chmod +x /bin/urbit; \
+    for bits in 32 64; do \
+      mkdir -p "/usr/local/vere/${bits}"; \
+      curl -fsSL \
+        -o "/usr/local/vere/${bits}/urbit" \
+        "https://bootstrap.urbit.org/vere/${VERE_PACE}/v${vere_version}/vere${bits}-v${vere_version}-${vere_target}"; \
+      chmod +x "/usr/local/vere/${bits}/urbit"; \
+      "/usr/local/vere/${bits}/urbit" -R 2>&1 | grep -F "(${bits}-bit)"; \
+    done; \
+    ln -sf /usr/local/vere/32/urbit /bin/urbit; \
     /bin/urbit -R 2>&1 | grep -F "(32-bit)"
 
 # for dns caching
